@@ -15,7 +15,7 @@ PROJECT_TERMS: tuple[str, ...] = ("nth", "new town heights")
 LOCALITY_TERMS: tuple[str, ...] = ("kakkanad",)
 
 # Broad query strings handed to each site's search.
-SEARCH_QUERY = "DLF New Town Heights Kakkanad"
+SEARCH_QUERY = "DLF Kakkanad"
 
 # How many listings (max) to pull per site per run.
 MAX_RESULTS_PER_SITE = 60
