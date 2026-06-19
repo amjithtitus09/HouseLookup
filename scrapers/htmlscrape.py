@@ -48,6 +48,8 @@ def scrape_links(
         title = " ".join(anchor.get_text(" ", strip=True).split()) or text[:120]
         if not config.matches_target(title, text):
             continue
+        if not config.is_rental(title, text):
+            continue
         full_url = urljoin(base_url, href.split("?")[0])
         if full_url in seen_hrefs:
             continue

@@ -64,14 +64,17 @@ def fetch() -> list[Ad]:
     for item in items:
         title = item.get("title") or ""
         location = _location(item)
+        price = _price(item)
         if not config.matches_target(title, location or ""):
+            continue
+        if not config.is_rental(title, location or "", price or ""):
             continue
         ads.append(
             Ad(
                 source="olx",
                 title=title.strip(),
                 url=_build_url(item),
-                price=_price(item),
+                price=price,
                 location=location,
                 posted_time=item.get("display_date") or item.get("created_at_first"),
                 raw_id=str(item.get("id")) if item.get("id") else None,

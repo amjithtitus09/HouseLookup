@@ -6,7 +6,7 @@ from models import Ad
 from .htmlscrape import scrape_links
 
 SEARCH_URL = (
-    "https://www.magicbricks.com/property-for-sale/residential-real-estate"
+    "https://www.magicbricks.com/property-for-rent/residential-real-estate"
     "?proptype=Multistorey-Apartment&cityName=Kochi&Locality=Kakkanad"
 )
 

@@ -7,8 +7,8 @@ from .htmlscrape import scrape_links
 
 # 99acres property search for Kakkanad, Kochi.
 SEARCH_URL = (
-    "https://www.99acres.com/search/property/buy/kakkanad-kochi"
-    "?city=58&locality=&keyword=DLF%20New%20Town%20Heights&preference=S&area_unit=1"
+    "https://www.99acres.com/search/property/rent/kakkanad-kochi"
+    "?city=58&locality=&keyword=DLF%20New%20Town%20Heights&preference=R&area_unit=1"
 )
 
 

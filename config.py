@@ -15,7 +15,30 @@ PROJECT_TERMS: tuple[str, ...] = ("nth", "new town heights")
 LOCALITY_TERMS: tuple[str, ...] = ("kakkanad",)
 
 # Broad query strings handed to each site's search.
-SEARCH_QUERY = "DLF Kakkanad"
+SEARCH_QUERY = "DLF Kakkanad for rent"
+
+# --- Listing type ----------------------------------------------------------
+# When True, only rental listings are kept; sale/resale listings are dropped.
+RENTALS_ONLY = True
+# Words that signal a rental listing.
+RENT_TERMS: tuple[str, ...] = (
+    "rent",
+    "rental",
+    "lease",
+    "let out",
+    "for rent",
+    "per month",
+    "/month",
+    "monthly",
+)
+# Words that signal a sale listing (used to exclude when RENTALS_ONLY).
+SALE_TERMS: tuple[str, ...] = (
+    "for sale",
+    "resale",
+    "lakh",
+    "lac",
+    "crore",
+)
 
 # How many listings (max) to pull per site per run.
 MAX_RESULTS_PER_SITE = 60
@@ -50,3 +73,21 @@ def matches_target(*texts: str) -> bool:
         re.search(rf"\b{re.escape(term)}\b", blob) for term in LOCALITY_TERMS
     )
     return has_project and has_locality
+
+
+def is_rental(*texts: str) -> bool:
+    """Return True if the listing looks like a rental.
+
+    When ``RENTALS_ONLY`` is disabled this always returns True. Otherwise the
+    text must contain a rent signal and must not contain a sale-only signal
+    (e.g. a price quoted in lakh/crore, or "for sale"/"resale").
+    """
+    if not RENTALS_ONLY:
+        return True
+    blob = " ".join(t for t in texts if t).lower()
+    has_sale = any(term in blob for term in SALE_TERMS)
+    has_rent = any(term in blob for term in RENT_TERMS)
+    if has_sale and not has_rent:
+        return False
+    return has_rent
+

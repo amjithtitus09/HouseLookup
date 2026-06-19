@@ -10,7 +10,7 @@ from models import Ad
 from .htmlscrape import scrape_links
 
 SEARCH_URL = (
-    "https://www.nobroker.in/property/sale/kochi/Kakkanad"
+    "https://www.nobroker.in/property/rent/kochi/Kakkanad"
     "?searchParam=W3sibGF0IjoxMC4wMTU5LCJsb24iOjc2LjM0MTksInBsYWNlSWQiOiIifV0="
 )
 
