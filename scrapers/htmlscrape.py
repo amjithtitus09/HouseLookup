@@ -1,6 +1,6 @@
 """Best-effort HTML listing extraction shared by the harder-to-scrape sites.
 
-These sites (99acres, MagicBricks, Housing, NoBroker) use heavy anti-bot
+These sites (99acres, MagicBricks, Housing) use heavy anti-bot
 protection and JS rendering, so static scraping is best-effort: it extracts
 anchor links to detail pages and keeps the ones whose visible text matches the
 target. A site returning nothing must never raise.

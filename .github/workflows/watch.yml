@@ -2,7 +2,7 @@ name: Watch DLF NTH Kakkanad
 
 on:
   schedule:
-    - cron: "*/30 * * * *" # every 30 minutes (UTC)
+    - cron: "*/15 * * * *" # every 30 minutes (UTC)
   workflow_dispatch: {}
 
 permissions:

@@ -14,7 +14,6 @@ Inspired by [bushyBee/OLXLookUp](https://github.com/bushyBee/OLXLookUp).
 | Housing.com | HTML scrape | ⚠️ Best-effort |
 | 99acres | HTML scrape | ⚠️ Best-effort |
 | MagicBricks | HTML scrape | ⚠️ Best-effort |
-| NoBroker | HTML scrape | ⚠️ Best-effort (heavy bot protection) |
 
 > Facebook Marketplace is intentionally excluded — it requires login and
 > aggressively blocks automation, so it can't run unattended reliably.

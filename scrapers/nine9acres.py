@@ -5,10 +5,10 @@ from models import Ad
 
 from .htmlscrape import scrape_links
 
-# 99acres property search for Kakkanad, Kochi.
+# 99acres rentals for DLF New Town Heights, Kakkanad, Kochi.
 SEARCH_URL = (
-    "https://www.99acres.com/search/property/rent/kakkanad-kochi"
-    "?city=58&locality=&keyword=DLF%20New%20Town%20Heights&preference=R&area_unit=1"
+    "https://www.99acres.com/flats-for-rent-in-dlf-new-town-heights-kochi"
+    "-kakkanad-kochi-3720-rnpffid"
 )
 
 

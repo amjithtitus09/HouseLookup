@@ -15,7 +15,7 @@ PROJECT_TERMS: tuple[str, ...] = ("nth", "new town heights")
 LOCALITY_TERMS: tuple[str, ...] = ("kakkanad",)
 
 # Broad query strings handed to each site's search.
-SEARCH_QUERY = "DLF Kakkanad for rent"
+SEARCH_QUERY = "dlf kakkanad"
 
 # --- Listing type ----------------------------------------------------------
 # When True, only rental listings are kept; sale/resale listings are dropped.
