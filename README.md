@@ -20,8 +20,11 @@ Inspired by [bushyBee/OLXLookUp](https://github.com/bushyBee/OLXLookUp).
 >
 > The "best-effort" sites may intermittently return nothing when they block
 > static requests or change their markup. OLX is the dependable source; the
-> rest are bonus coverage. If you later need them to be rock-solid, route those
-> requests through a paid scraping proxy (e.g. ScraperAPI).
+> rest are bonus coverage. To make them reliable, set a `SCRAPER_API_KEY`
+> (ScrapingAnt — free tier at <https://scrapingant.com>): when present, the
+> HTML scrapers route through it so JS-rendered, bot-protected pages load.
+> Without a key they fall back to direct requests (which these sites often
+> block). Add the key as a GitHub secret named `SCRAPER_API_KEY`.
 
 ## How it works
 

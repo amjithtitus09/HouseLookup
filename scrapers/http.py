@@ -34,8 +34,22 @@ def get_json(session: requests.Session, url: str, **kwargs) -> dict | list | Non
 
 
 def get_text(session: requests.Session, url: str, **kwargs) -> str | None:
+    target_url = url
+    if config.SCRAPER_API_KEY:
+        # Route through ScrapingAnt: it fetches `url` (optionally with a real
+        # browser) and returns the rendered HTML body directly.
+        target_url = config.SCRAPER_ENDPOINT
+        params = dict(kwargs.pop("params", {}) or {})
+        params.update(
+            {
+                "url": url,
+                "x-api-key": config.SCRAPER_API_KEY,
+                "browser": "true" if config.SCRAPER_RENDER_JS else "false",
+            }
+        )
+        kwargs["params"] = params
     try:
-        resp = session.get(url, timeout=config.REQUEST_TIMEOUT, **kwargs)
+        resp = session.get(target_url, timeout=config.REQUEST_TIMEOUT, **kwargs)
         resp.raise_for_status()
         return resp.text
     except requests.RequestException as exc:

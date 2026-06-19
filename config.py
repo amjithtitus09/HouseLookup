@@ -43,6 +43,16 @@ SALE_TERMS: tuple[str, ...] = (
 # How many listings (max) to pull per site per run.
 MAX_RESULTS_PER_SITE = 60
 
+# --- Scraping proxy (ScrapingAnt) ------------------------------------------
+# Optional. When SCRAPER_API_KEY is set, the HTML scrapers (Housing, 99acres,
+# MagicBricks) route through ScrapingAnt so JS-rendered, bot-protected pages
+# load. OLX's JSON API stays direct. Get a free key at https://scrapingant.com
+# and store it as the SCRAPER_API_KEY GitHub secret (or in your local .env).
+SCRAPER_API_KEY = os.getenv("SCRAPER_API_KEY", "")
+# Use a real headless browser to render JavaScript (needed for these sites).
+SCRAPER_RENDER_JS = True
+SCRAPER_ENDPOINT = "https://api.scrapingant.com/v2/general"
+
 # Network
 REQUEST_TIMEOUT = 20  # seconds
 USER_AGENT = (
