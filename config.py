@@ -52,6 +52,12 @@ SCRAPER_API_KEY = os.getenv("SCRAPER_API_KEY", "")
 # Use a real headless browser to render JavaScript (needed for these sites).
 SCRAPER_RENDER_JS = True
 SCRAPER_ENDPOINT = "https://api.scrapingant.com/v2/general"
+# Browser rendering is slow, so proxied requests get a longer timeout (seconds).
+SCRAPER_TIMEOUT = 90
+# Use an Indian exit IP for these India-only sites.
+SCRAPER_COUNTRY = "in"
+# Retry attempts on transient ScrapingAnt 409 ("couldn't bypass, retry").
+SCRAPER_RETRIES = 2
 
 # Network
 REQUEST_TIMEOUT = 20  # seconds
