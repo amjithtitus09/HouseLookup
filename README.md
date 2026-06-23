@@ -10,7 +10,7 @@ Inspired by [bushyBee/OLXLookUp](https://github.com/bushyBee/OLXLookUp).
 
 | Site | Method | Reliability |
 |------|--------|-------------|
-| OLX | JSON search API | ✅ Primary, reliable |
+| OLX | JSON search API | ✅ Primary — needs `SCRAPER_API_KEY` |
 | Housing.com | HTML scrape | ⚠️ Best-effort |
 | 99acres | HTML scrape | ⚠️ Best-effort |
 | MagicBricks | HTML scrape | ⚠️ Best-effort |
@@ -18,13 +18,14 @@ Inspired by [bushyBee/OLXLookUp](https://github.com/bushyBee/OLXLookUp).
 > Facebook Marketplace is intentionally excluded — it requires login and
 > aggressively blocks automation, so it can't run unattended reliably.
 >
-> The "best-effort" sites may intermittently return nothing when they block
-> static requests or change their markup. OLX is the dependable source; the
-> rest are bonus coverage. To make them reliable, set a `SCRAPER_API_KEY`
-> (ScrapingAnt — free tier at <https://scrapingant.com>): when present, the
-> HTML scrapers route through it so JS-rendered, bot-protected pages load.
-> Without a key they fall back to direct requests (which these sites often
-> block). Add the key as a GitHub secret named `SCRAPER_API_KEY`.
+> These sites block automated/datacenter traffic (OLX simply times out, the
+> rest return 403/406), so scraping is only reliable through a proxy. Set a
+> `SCRAPER_API_KEY` (ScrapingAnt — free tier at <https://scrapingant.com>):
+> when present, **all** scrapers route through it from an Indian IP — the HTML
+> sites render in a headless browser and OLX's JSON API is proxied without
+> rendering so the raw JSON returns intact. Without a key they fall back to
+> direct requests, which these sites usually block. Add the key as a GitHub
+> secret named `SCRAPER_API_KEY`.
 
 ## How it works
 
