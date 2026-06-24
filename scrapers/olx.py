@@ -60,6 +60,18 @@ def fetch() -> list[Ad]:
         return []
 
     items = data.get("data") or []
+    if items:
+        import json as _json
+
+        log.info("DISCOVERY keys: %s", sorted(items[0].keys()))
+        log.info("DISCOVERY item0: %s", _json.dumps(items[0])[:2000])
+        for it in items[:6]:
+            datey = {
+                k: it.get(k)
+                for k in it.keys()
+                if any(s in k.lower() for s in ("date", "time", "creat", "updat", "publish"))
+            }
+            log.info("DISCOVERY dateish id=%s: %s", it.get("id"), datey)
     ads: list[Ad] = []
     for item in items:
         title = item.get("title") or ""
