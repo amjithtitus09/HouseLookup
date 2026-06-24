@@ -35,7 +35,14 @@ def collect_ads() -> list[Ad]:
     unique: dict[str, Ad] = {}
     for ad in all_ads:
         unique.setdefault(ad.id, ad)
-    return list(unique.values())
+    # Newest first by post date. Ads without a known timestamp (the HTML
+    # scrapers don't expose one) sort last, after the dated listings.
+    ordered = sorted(
+        unique.values(),
+        key=lambda ad: ad.posted_ts if ad.posted_ts is not None else float("-inf"),
+        reverse=True,
+    )
+    return ordered
 
 
 def main() -> None:
@@ -56,7 +63,7 @@ def main() -> None:
 
     log.info("Found %d matching ads (%d new).", len(ads), len(new_ads))
     for ad in new_ads:
-        log.info("NEW: %s | %s", ad.title, ad.url)
+        log.info("NEW: %s | %s | %s", ad.posted_time or "?", ad.title, ad.url)
 
     if args.dry_run:
         log.info("Dry run: not sending notifications or saving state.")

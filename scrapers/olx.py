@@ -6,6 +6,7 @@ title/location mention the target project + locality.
 from __future__ import annotations
 
 import logging
+from datetime import datetime, timezone
 
 import config
 from models import Ad
@@ -15,6 +16,36 @@ from .http import get_json, make_session
 log = logging.getLogger("scrapers.olx")
 
 API = "https://www.olx.in/api/relevance/v4/search"
+
+
+def _parse_dt(value: object) -> datetime | None:
+    if not isinstance(value, str) or not value.strip():
+        return None
+    try:
+        return datetime.fromisoformat(value.strip().replace("Z", "+00:00"))
+    except ValueError:
+        return None
+
+
+def _posted(item: dict) -> tuple[str | None, float | None]:
+    """Return ``(human_time, sortable_epoch)`` for the ad's post date.
+
+    OLX's ``display_date`` is a shared serving timestamp (identical across
+    different ads), so it's useless for ordering. ``created_at`` is the real
+    per-ad post/bump time; fall back to ``created_at_first`` (original post),
+    then ``display_date``.
+    """
+    raw = (
+        item.get("created_at")
+        or item.get("created_at_first")
+        or item.get("display_date")
+    )
+    dt = _parse_dt(raw)
+    if dt is None:
+        return (raw if isinstance(raw, str) else None, None)
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return (dt.strftime("%Y-%m-%d %H:%M"), dt.timestamp())
 
 
 def _build_url(item: dict) -> str:
@@ -60,18 +91,6 @@ def fetch() -> list[Ad]:
         return []
 
     items = data.get("data") or []
-    if items:
-        import json as _json
-
-        log.info("DISCOVERY keys: %s", sorted(items[0].keys()))
-        log.info("DISCOVERY item0: %s", _json.dumps(items[0])[:2000])
-        for it in items[:6]:
-            datey = {
-                k: it.get(k)
-                for k in it.keys()
-                if any(s in k.lower() for s in ("date", "time", "creat", "updat", "publish"))
-            }
-            log.info("DISCOVERY dateish id=%s: %s", it.get("id"), datey)
     ads: list[Ad] = []
     for item in items:
         title = item.get("title") or ""
@@ -81,6 +100,7 @@ def fetch() -> list[Ad]:
             continue
         if not config.is_rental(title, location or "", price or ""):
             continue
+        posted_time, posted_ts = _posted(item)
         ads.append(
             Ad(
                 source="olx",
@@ -88,7 +108,8 @@ def fetch() -> list[Ad]:
                 url=_build_url(item),
                 price=price,
                 location=location,
-                posted_time=item.get("display_date") or item.get("created_at_first"),
+                posted_time=posted_time,
+                posted_ts=posted_ts,
                 raw_id=str(item.get("id")) if item.get("id") else None,
             )
         )
