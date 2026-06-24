@@ -44,10 +44,14 @@ SALE_TERMS: tuple[str, ...] = (
 MAX_RESULTS_PER_SITE = 60
 
 # --- Scraping proxy (ScrapingAnt) ------------------------------------------
-# Optional. When SCRAPER_API_KEY is set, the HTML scrapers (Housing, 99acres,
-# MagicBricks) route through ScrapingAnt so JS-rendered, bot-protected pages
-# load. OLX's JSON API stays direct. Get a free key at https://scrapingant.com
-# and store it as the SCRAPER_API_KEY GitHub secret (or in your local .env).
+# Optional. When SCRAPER_API_KEY is set, requests route through ScrapingAnt so
+# India-only, bot-protected pages load from an Indian residential IP instead of
+# a blocked datacenter range. The HTML scrapers (Housing, 99acres, MagicBricks)
+# render with a headless browser; OLX's JSON API is proxied without rendering so
+# the raw JSON body comes back intact. Without a key, requests go direct, which
+# these sites -- including OLX -- usually block. Get a free key at
+# https://scrapingant.com and store it as the SCRAPER_API_KEY GitHub secret
+# (or in your local .env).
 SCRAPER_API_KEY = os.getenv("SCRAPER_API_KEY", "")
 # Use a real headless browser to render JavaScript (needed for these sites).
 SCRAPER_RENDER_JS = True

@@ -14,6 +14,7 @@ class Ad:
     price: Optional[str] = None
     location: Optional[str] = None
     posted_time: Optional[str] = None
+    posted_ts: Optional[float] = None  # sortable epoch seconds, if known
     raw_id: Optional[str] = None  # site-native id, if available
     id: str = field(init=False)
 
